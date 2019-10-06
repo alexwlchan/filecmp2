@@ -1,6 +1,7 @@
 # -*- encoding: utf-8
 
 import io
+import os
 
 import pytest
 
@@ -77,3 +78,14 @@ def test_compares_large_files():
     f2 = io.BytesIO(common_prefix + b"2")
 
     assert not filecmp2.cmp_file_contents(f1=f1, f2=f2)
+
+
+def test_hard_links_are_the_same(tmpdir):
+    path1 = tmpdir.join("greeting1.txt")
+    path1.write(b"hello world")
+
+    path2 = tmpdir.join("greeting2.txt")
+
+    os.link(path1, path2)
+
+    assert filecmp2.cmp_same_file(path1, path2)
