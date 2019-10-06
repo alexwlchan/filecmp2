@@ -5,7 +5,7 @@ import filecmp
 import os
 
 
-def cmp_file_contents(f1, f2):
+def cmp_contents(f1, f2):
     """
     Returns True if the contents of the file-like objects ``f1`` and ``f2``
     are the equal.
@@ -39,26 +39,27 @@ def cmp_file_contents(f1, f2):
 
 def cmp_path_contents(path1, path2):
     """
-    Returns True if the files at path ``path1`` and ``path2``
+    Returns True if the files at paths ``path1`` and ``path2``
     have the same contents.
 
     That is, the files both contain the same bytes.
     """
     with open(path1, "rb") as f1, open(path2, "rb") as f2:
-        return cmp_file_contents(f1, f2)
+        return cmp_contents(f1, f2)
 
 
 def cmp_stat(path1, path2):
     """
     Returns True if the os.stat() signature of ``path1`` and
     ``path2`` are the same.
+
+    This is the shallow copy done by filecmp.cmp().
     """
     return filecmp.cmp(path1, path2, shallow=True)
 
 
 def cmp_same_file(path1, path2):
     """
-    Returns True if ``path1`` and ``path2`` point to the same file on disk;
-    False if not.
+    Returns True if ``path1`` and ``path2`` point to the same file on disk.
     """
     return os.path.samefile(path1, path2)

@@ -10,7 +10,7 @@ setup(
     name="filecmp2",
     version="1.0.0",
     license="MIT",
-    description="Explicit file comparisons",
+    description="Are these two files the same? Explicit file comparisons.",
     long_description=readme_contents,
     author="Alex Chan",
     author_email="alex@alexwlchan.net",
