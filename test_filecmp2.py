@@ -29,6 +29,21 @@ def test_different_files_are_different(tmpdir):
     assert not filecmp2.cmp_same_file(path1=path1, path2=path2)
 
 
+def test_same_size_and_mtime_but_different_contents(tmpdir):
+    path1 = tmpdir.join("greeting1.txt")
+    path1.write(b"hello world")
+
+    path2 = tmpdir.join("greeting2.txt")
+    path2.write(b"howdy world")
+
+    path1_stat = os.stat(str(path1))
+    os.utime(str(path2), times=(path1_stat.st_atime, path1_stat.st_mtime))
+
+    assert not filecmp2.cmp_path_contents(path1=path1, path2=path2)
+    assert filecmp2.cmp_stat(path1=path1, path2=path2)
+    assert not filecmp2.cmp_same_file(path1=path1, path2=path2)
+
+
 def test_two_files_with_equal_contents_match_contents_but_not_same(tmpdir):
     path1 = tmpdir.join("greeting1.txt")
     path1.write(b"hello world")
